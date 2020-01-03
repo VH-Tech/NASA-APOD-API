@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>{{ the_title }}</h2>
+<form method='GET' action='/search4'>
+<table>
+<p>Enter date you want to view APOD of:</p>
+<tr><td>Date:</td><td><input name='date' type='DATE' width='60'></td></tr>
+</table>
+<p>When you're ready, click this button:</p>
+<p><input value='Do it!' type='SUBMIT'></p>
+</form>
+
+{% endblock %}

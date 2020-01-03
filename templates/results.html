@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block body %}
+<h2 id="ttl" class="dynamic-content">{{ the_title }}</h2>
+<img src="{{ the_image }}">
+<h3>{{ the_results }}</h3>
+<form method='GET' action='/pdf'>
+<p><input class="dynamic-content" id="btn" value='Download as PDF' type='SUBMIT'></p>
+</form>
+
+<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+<script type="text/javascript">
+	// Parse the URL parameter
+	function getParameterByName(name, url) {
+	    if (!url) url = window.location.href;
+	    name = name.replace(/[\[\]]/g, "\\$&");
+	    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+	        results = regex.exec(url);
+	    if (!results) return null;
+	    if (!results[2]) return '';
+	    return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+	// Give the parameter a variable name
+	var dynamicContent = getParameterByName('pdf');
+
+	 $(document).ready(function() {
+
+		// Check if the URL parameter is apples
+		if (dynamicContent == 'True') {
+
+		}
+		// Check if the URL parmeter is empty or not defined, display default content
+		else {
+			$('#btn').show();
+			$('#ttl').show();
+		}
+	});
+</script>
+
+{% endblock %}
