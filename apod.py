@@ -1,18 +1,16 @@
 from flask import Flask, render_template, request, send_file, abort
 import requests
-import pdfkit
-import os
 import datetime
+import os
 
 app = Flask(__name__)
-API_KEY= 'wd2dtVwJNn1UkcMlTIR1zpaaGH23vCPJrW5IGSt4'
-
+API_KEY = 'wd2dtVwJNn1UkcMlTIR1zpaaGH23vCPJrW5IGSt4'
+Token = 'GO6of8KnDETXY5miOJDp4PkAQnhMKRzc'
 
 @app.route('/search4', methods=['POST', 'GET'])
 def do_search() -> 'html':
     global date,base
     base =request.base_url
-    print(base)
     date = request.args.get('date')
     [y , m, d] = date.split('-')
     d1 = datetime.date(int(y), int(m), int(d))
@@ -40,8 +38,13 @@ def entry_page() -> 'html':
 
 @app.route('/pdf' , methods=['POST' , 'GET'])
 def download() -> 'html':
-    global date
-    pdfkit.from_url(base+'?date='+date+'&pdf=True', date+'.pdf')
+    global date,base
+    #base = 'https://flask-nasa-apod-v2.herokuapp.com/search4'
+    url = base+'?date='+date+'&pdf=True'
+    command = "curl -H 'Authentication: Token "+Token+"' \
+    -d 'url="+url+"' \
+    'https://htmlpdfapi.com/api/v1/pdf' > "+date+".pdf"
+    os.system(command)
     file = send_file(date+'.pdf', mimetype='text/pdf', attachment_filename=date+'.pdf', as_attachment=True)
     os.remove(date+".pdf")
     return file
@@ -49,8 +52,4 @@ def download() -> 'html':
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
-
-
 
